@@ -72,11 +72,11 @@ EOF
 
 # Stop existing Weaviate if running
 echo "🛑 Stopping existing Weaviate containers..."
-docker-compose -f /tmp/weaviate-docker-compose.yml down 2>/dev/null || true
+sudo docker-compose -f /tmp/weaviate-docker-compose.yml down 2>/dev/null || true
 
 # Start Weaviate
 echo "🚀 Starting Weaviate..."
-docker-compose -f /tmp/weaviate-docker-compose.yml up -d
+sudo docker-compose -f /tmp/weaviate-docker-compose.yml up -d
 
 # Wait for Weaviate to be ready
 echo "⏳ Waiting for Weaviate to be ready..."
@@ -106,5 +106,5 @@ echo ""
 echo "✨ Weaviate setup complete!"
 echo "📊 Weaviate is running on: http://localhost:8080"
 echo "🔍 Check status: curl http://localhost:8080/v1/.well-known/ready"
-echo "📜 View logs: docker-compose -f /opt/weaviate/docker-compose.yml logs -f"
+echo "📜 View logs: sudo docker-compose -f /opt/weaviate/docker-compose.yml logs -f"
 echo ""
