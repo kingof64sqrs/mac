@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 4px; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e9; color: #2e7d32; }
+        pre { white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Frontend-Backend Integration Test</h1>
+    
+    <div id="results"></div>
+    
+    <script>
+        const resultsDiv = document.getElementById('results');
+        
+        async function testEndpoint(name, url) {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = `<h3>${name}</h3><p>Testing ${url}...</p>`;
+            resultsDiv.appendChild(resultDiv);
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML += `<p>✅ Success (${response.status})</p><pre>${JSON.stringify(data, null, 2).substring(0, 500)}...</pre>`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML += `<p>❌ Error (${response.status})</p><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML += `<p>❌ Exception: ${error.message}</p>`;
+            }
+        }
+        
+        // Test endpoints
+        (async () => {
+            await testEndpoint('Health Check', '/api/v1/health');
+            await testEndpoint('Site Config', '/api/v1/site-config');
+            await testEndpoint('Sections', '/api/v1/sections?page_size=5');
+            await testEndpoint('Products', '/api/v1/products?page_size=5&is_active=true');
+            await testEndpoint('Categories', '/api/v1/categories?page_size=5');
+        })();
+    </script>
+</body>
+</html>
