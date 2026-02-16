@@ -9,7 +9,7 @@ import {
 } from '../types';
 
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: 'http://80.225.216.174:8000/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
